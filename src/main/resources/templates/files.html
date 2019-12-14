@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Files</title>
+</head>
+<body>
+
+<table>
+    <thead>
+    <tr>
+        <th> File name </th>
+        <th> Size </th>
+    </tr>
+    </thead>
+    <tbody >
+    <tr th:if="${directories.empty and files.empty}">
+        <td colspan="2"> No Directories and Files Available </td>
+    </tr>
+    <tr th:each="dir : ${directories}" >
+        <td><span th:text="${dir.name}"> Name </span></td>
+        <td> &lt;DIR&gt; </td>
+    </tr>
+    <tr th:each="file : ${files}" >
+        <td><span th:text="${file.name}"> Name </span></td>
+        <td><span th:text="${file.size}"> Size </span></td>
+    </tr>
+
+
+    </tbody>
+</table>
+
+<form action="/">
+    <button type="submit">Back</button>
+</form>
+
+
+</body>
+</html>

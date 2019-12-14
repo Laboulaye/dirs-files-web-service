@@ -1,10 +1,45 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
-    <meta charset="UTF-8">
     <title>Main page</title>
 </head>
+
 <body>
+<h1>Директории и файлы</h1>
+</br>
+<form method="post" th:action="@{/add}">
+    Новая директория <input type="text" name="baseDirectory" th:value="${baseDirectory}"><button name="buttonAdd" type="submit">Добавить в список</button>
+</form>
+
+</br>
+<h3>Список директорий и файлов</h3></br>
+
+<table>
+    <thead>
+    <tr>
+        <th>    Дата    </th>
+        <th>    Базовая директория   </th>
+        <th>    Директорий   </th>
+        <th>    Файлов   </th>
+        <th>    Суммарный размер файлов   </th>
+        <th>    Подробно    </th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="query : ${queries}" >
+        <form th:method="get" th:action="@{/files/{id}(id=${query.getId()})}">
+            <td><span th:text="${query.getDateTime()}"> Дата </span></td>
+            <td><span th:text="${query.getBaseDirectory()}"> Базовая директория </span></td>
+            <td><span th:text="${query.getCountSubDirectories()}"> Директорий </span></td>
+            <td><span th:text="${query.getCountFilesInDirectory()}"> Файлов </span></td>
+            <td><span th:text="${query.getSize()}"> Суммарный размер </span></td>
+            <td><button type="submit" name="buttonFiles">Файлы</button></td>
+        </form>
+    </tr>
+
+    </tbody>
+</table>
 
 </body>
 </html>

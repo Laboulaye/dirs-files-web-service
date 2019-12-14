@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Error page</title>
+</head>
+<body>
+<h3>Error</h3>
+<p th:text="${message}"> error</p>
+
+<form action="/">
+    <button type="submit">На главную</button>
+</form>
+</body>
+</html>
