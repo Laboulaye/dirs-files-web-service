@@ -18,7 +18,6 @@ public class File {
     @JoinColumn(name="directory_id", nullable=false)
     private Directory directory;
 
-
     public File() {
     }
 

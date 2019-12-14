@@ -7,8 +7,8 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface QueryRepo extends JpaRepository<Query, Long> {
+public interface QueryRepo extends JpaRepository<Query, Long>, QueryRepoCustom{
 
     List<Query> findByOrderByIdDesc();
-
 }
+

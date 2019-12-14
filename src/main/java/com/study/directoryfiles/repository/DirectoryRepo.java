@@ -10,6 +10,6 @@ import java.util.List;
 @Repository
 public interface DirectoryRepo extends JpaRepository<Directory, Long> {
 
-    List<Directory> getByParentId(long parent_id);
+    List<Directory> getByParent(Directory parent);
 }
 

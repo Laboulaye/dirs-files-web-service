@@ -2,7 +2,6 @@ package com.study.directoryfiles.model;
 
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "queries")
@@ -11,21 +10,15 @@ public class Query {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-
     private String dateTime;
-
     private String baseDirectory;
-
-    private int countDirs;
-
-    private int countFiles;
-
+    private String countSubDirectories;
+    private String countFilesInDirectory;
     private String size;
 
     @OneToOne
     @JoinColumn(name = "directory_id")
     private Directory directory;
-
 
     public Query() {
     }
@@ -54,20 +47,20 @@ public class Query {
         this.baseDirectory = baseDirectory;
     }
 
-    public int getCountDirs() {
-        return countDirs;
+    public String getCountSubDirectories() {
+        return countSubDirectories;
     }
 
-    public void setCountDirs(int countDirs) {
-        this.countDirs = countDirs;
+    public void setCountSubDirectories(String countSubDirectories) {
+        this.countSubDirectories = countSubDirectories;
     }
 
-    public int getCountFiles() {
-        return countFiles;
+    public String getCountFilesInDirectory() {
+        return countFilesInDirectory;
     }
 
-    public void setCountFiles(int countFiles) {
-        this.countFiles = countFiles;
+    public void setCountFilesInDirectory(String countFilesInDirectory) {
+        this.countFilesInDirectory = countFilesInDirectory;
     }
 
     public String getSize() {
