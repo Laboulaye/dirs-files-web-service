@@ -2,38 +2,53 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
-    <meta charset="UTF-8">
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
     <title>Files</title>
 </head>
 <body>
 
-<table>
-    <thead>
-    <tr>
-        <th> File name </th>
-        <th> Size </th>
-    </tr>
-    </thead>
-    <tbody >
-    <tr th:if="${directories.empty and files.empty}">
-        <td colspan="2"> No Directories and Files Available </td>
-    </tr>
-    <tr th:each="dir : ${directories}" >
-        <td><span th:text="${dir.name}"> Name </span></td>
-        <td> &lt;DIR&gt; </td>
-    </tr>
-    <tr th:each="file : ${files}" >
-        <td><span th:text="${file.name}"> Name </span></td>
-        <td><span th:text="${file.size}"> Size </span></td>
-    </tr>
+<div class="card mx-auto" style="width: 70%">
+    <div class="card-header">
+        <span th:text="${query.getBaseDirectory()}          ">Путь</span>
+        <span th:text="${query.getDateTime()}">Дата</span>
+    </div>
+    <div class="card-body">
+        <h5 class="card-title">Content base directory</h5>
+        <table class="table mx-auto" style="width: 60%">
+            <thead>
+            <tr>
+                <th scope="col"> File name </th>
+                <th scope="col"> Size </th>
+            </tr>
+            </thead>
+            <tbody >
+            <tr th:if="${directories.empty and files.empty}">
+                <td colspan="2"> No Directories and Files Available </td>
+            </tr>
+            <tr th:each="dir : ${directories}" >
+                <td><span th:text="${dir.name}"> Name </span></td>
+                <td> &lt;DIR&gt; </td>
+            </tr>
+            <tr th:each="file : ${files}" >
+                <td><span th:text="${file.name}"> Name </span></td>
+                <td><span th:text="${file.size}"> Size </span></td>
+            </tr>
 
 
-    </tbody>
-</table>
-
-<form action="/">
-    <button type="submit">Back</button>
-</form>
+            </tbody>
+        </table>
+        <form action="/" class="text-right">
+            <button class="btn btn-secondary " type="submit">Назад</button>
+        </form>
+    </div>
+</div>
 
 
 </body>

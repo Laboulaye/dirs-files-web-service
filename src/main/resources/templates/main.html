@@ -2,44 +2,64 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
     <title>Main page</title>
 </head>
 
 <body>
-<h1>Директории и файлы</h1>
-</br>
-<form method="post" th:action="@{/add}">
-    Новая директория <input type="text" name="baseDirectory" th:value="${baseDirectory}"><button name="buttonAdd" type="submit">Добавить в список</button>
-</form>
+<div class="p-3">
+    <div class="container p-2">
+    <h1 class="text-center">Директории и файлы</h1>
+    <br/>
 
-</br>
-<h3>Список директорий и файлов</h3></br>
+    <form method="post" th:action="@{/add}">
+        <span class="h5">Новая директория </span>
+        <label>
+        <input type="text" name="baseDirectory" th:value="${baseDirectory}">
+        </label>
+        <button name="buttonAdd" class="btn btn-primary" type="submit">Добавить в список</button>
+    </form>
+    <br/>
+    </div>
+    <div class="container">
+    <h3>Список директорий и файлов</h3><br/>
 
-<table>
-    <thead>
-    <tr>
-        <th>    Дата    </th>
-        <th>    Базовая директория   </th>
-        <th>    Директорий   </th>
-        <th>    Файлов   </th>
-        <th>    Суммарный размер файлов   </th>
-        <th>    Подробно    </th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="query : ${queries}" >
-        <form th:method="get" th:action="@{/files/{id}(id=${query.getId()})}">
+    <table class="table p-20" id="queryTable">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Дата</th>
+            <th scope="col">Базовая директория</th>
+            <th scope="col">Директорий</th>
+            <th scope="col">Файлов</th>
+            <th scope="col">Суммарный размер файлов</th>
+            <th scope="col">Подробно</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="query : ${queries}" >
+            <th scope="row"><span th:text="${query.getId()}"> Id </span></th>
             <td><span th:text="${query.getDateTime()}"> Дата </span></td>
             <td><span th:text="${query.getBaseDirectory()}"> Базовая директория </span></td>
             <td><span th:text="${query.getCountSubDirectories()}"> Директорий </span></td>
             <td><span th:text="${query.getCountFilesInDirectory()}"> Файлов </span></td>
             <td><span th:text="${query.getSize()}"> Суммарный размер </span></td>
-            <td><button type="submit" name="buttonFiles">Файлы</button></td>
-        </form>
-    </tr>
-
-    </tbody>
-</table>
-
+            <td>
+                <form th:method="get" th:action="@{/files/{id}(id=${query.getId()})}">
+                    <button type="submit" class="btn btn-primary" name="buttonFiles">Файлы</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    </div>
+</div>
 </body>
 </html>

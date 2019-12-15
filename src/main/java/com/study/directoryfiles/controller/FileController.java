@@ -37,10 +37,12 @@ public class FileController{
         }
         Directory directory = query.getDirectory();
         if(directory != null) {
+            model.addAttribute("query", query);
             model.addAttribute("directories", directoryService.getDirectoriesByParentSorted(directory));
             model.addAttribute("files", fileService.getFilesByDirectorySorted(directory));
             return "files";
         }
+        model.addAttribute("query", query);
         model.addAttribute("message", "Неправильно указана базовая директория");
         return "error";
     }

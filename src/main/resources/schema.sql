@@ -1,4 +1,6 @@
-
+DROP TABLE IF EXISTS directory_files.queries;
+DROP TABLE IF EXISTS directory_files.files;
+DROP TABLE IF EXISTS directory_files.directories;
 
 CREATE TABLE `directory_files`.`directories` (
     `id` BIGINT(20) NOT NULL AUTO_INCREMENT,
@@ -6,8 +8,7 @@ CREATE TABLE `directory_files`.`directories` (
     `parent_id` BIGINT(20) NULL,
     PRIMARY KEY (`id`),
     CONSTRAINT `parent_id_fk`
-        FOREIGN KEY (`parent_id`) REFERENCES `directory_files`.`directories` (`id`));
-
+        FOREIGN KEY (`parent_id`) REFERENCES `directory_files`.`directories` (`id`) ON DELETE CASCADE);
 
 CREATE TABLE `directory_files`.`files` (
     `id` BIGINT(20) NOT NULL AUTO_INCREMENT,
@@ -16,5 +17,4 @@ CREATE TABLE `directory_files`.`files` (
     `directory_id` BIGINT(20) NOT NULL,
     PRIMARY KEY (`id`),
     CONSTRAINT `directory_id_fk`
-        FOREIGN KEY (`directory_id`) REFERENCES `directory_files`.`directories` (`id`));
-
+        FOREIGN KEY (`directory_id`) REFERENCES `directory_files`.`directories` (`id`) ON DELETE CASCADE);
