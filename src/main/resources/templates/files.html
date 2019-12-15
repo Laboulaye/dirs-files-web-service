@@ -20,7 +20,7 @@
         <span th:text="${query.getDateTime()}">Дата</span>
     </div>
     <div class="card-body">
-        <h5 class="card-title">Content base directory</h5>
+        <h5 class="card-title">Содержимое директории</h5>
         <table class="table mx-auto" style="width: 60%">
             <thead>
             <tr>
@@ -30,7 +30,7 @@
             </thead>
             <tbody >
             <tr th:if="${directories.empty and files.empty}">
-                <td colspan="2"> No Directories and Files Available </td>
+                <td colspan="2"> Папка пуста </td>
             </tr>
             <tr th:each="dir : ${directories}" >
                 <td><span th:text="${dir.name}"> Name </span></td>

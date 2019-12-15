@@ -22,6 +22,9 @@ public class QueryController {
 
     @PostMapping("/add")
     public String addQuery(@RequestParam("baseDirectory") String path){
+        if(path.isEmpty()){
+            return "redirect:/";
+        }
         queryService.addQuery(path);
         return "redirect:/";
     }
