@@ -26,7 +26,6 @@ public class FileController{
 
     @GetMapping("/files/{queryId}")
     public String getContent(@PathVariable("queryId") String queryId, Model model){
-
         Query query;
         try{
             long longQueryId = Long.parseLong(queryId);
@@ -42,7 +41,6 @@ public class FileController{
             model.addAttribute("files", fileService.getFilesByDirectorySorted(directory));
             return "files";
         }
-        model.addAttribute("query", query);
         model.addAttribute("message", "Неправильно указана базовая директория");
         return "error";
     }
