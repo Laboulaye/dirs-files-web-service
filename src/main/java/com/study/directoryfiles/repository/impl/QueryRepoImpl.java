@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.text.DecimalFormat;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class QueryRepoImpl  implements QueryRepoCustom {
@@ -45,10 +44,7 @@ public class QueryRepoImpl  implements QueryRepoCustom {
     }
 
     private void addTime(){
-        LocalDateTime now = LocalDateTime.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
-        String formatDateTime = now.format(formatter);
-        query.setDateTime(formatDateTime);
+        query.setDateTime(LocalDateTime.now());
     }
 
     private void addBaseDirectory(String path){

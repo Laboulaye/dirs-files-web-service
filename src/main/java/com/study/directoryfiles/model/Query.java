@@ -2,6 +2,7 @@ package com.study.directoryfiles.model;
 
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "queries")
@@ -10,7 +11,7 @@ public class Query {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    private String dateTime;
+    private LocalDateTime dateTime;
     private String baseDirectory;
     private String countSubDirectories;
     private String countFilesInDirectory;
@@ -31,11 +32,11 @@ public class Query {
         this.id = id;
     }
 
-    public String getDateTime() {
+    public LocalDateTime getDateTime() {
         return dateTime;
     }
 
-    public void setDateTime(String dateTime) {
+    public void setDateTime(LocalDateTime dateTime) {
         this.dateTime = dateTime;
     }
 

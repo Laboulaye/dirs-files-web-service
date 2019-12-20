@@ -53,7 +53,7 @@
         <tbody>
         <tr th:each="query : ${queries}" >
             <th scope="row"><span th:text="${query.getId()}"> Id </span></th>
-            <td><span th:text="${query.getDateTime()}"> Дата </span></td>
+            <td><span th:text="${#temporals.format(query.getDateTime(), 'dd-MM-yyyy HH:mm')}"> Дата </span></td>
             <td><span th:text="${query.getBaseDirectory()}"> Базовая директория </span></td>
             <td><span th:text="${query.getCountSubDirectories()}"> Директорий </span></td>
             <td><span th:text="${query.getCountFilesInDirectory()}"> Файлов </span></td>
