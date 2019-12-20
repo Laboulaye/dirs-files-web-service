@@ -8,8 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.regex.Matcher;
+import java.util.regex.Matcher; 
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 @Service
 public class FileServiceImpl implements FileService {
@@ -19,9 +20,11 @@ public class FileServiceImpl implements FileService {
 
 
     public List<File> getFilesByDirectorySorted(Directory directory){
-        List<File> listFiles = fileRepo.getByDirectory(directory);
-        listFiles.sort((f1, f2) -> customSortByName(f1.getName(), f2.getName()));
-        return listFiles;
+        List<File> unsortedList = fileRepo.getByDirectory(directory);
+        List<File> sortedList = unsortedList.stream()
+                        .sorted(((f1, f2)-> customSortByName(f1.getName(), f2.getName())))
+                        .collect(Collectors.toList());
+        return sortedList;
     }
 
     public int customSortByName(String name1, String name2){
