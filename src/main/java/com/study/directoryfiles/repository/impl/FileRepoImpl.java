@@ -4,7 +4,6 @@ import com.study.directoryfiles.model.Directory;
 import com.study.directoryfiles.model.File;
 import com.study.directoryfiles.repository.FileRepo;
 import com.study.directoryfiles.repository.FileRepoCustom;
-import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 
@@ -26,12 +25,17 @@ public class FileRepoImpl implements FileRepoCustom {
     }
 
     @Override
-    public void createFile(String path, Directory directory) throws IOException{
-        List<File> filesInFolder = Files.walk(Paths.get(path), 1)
-                .filter(Files::isRegularFile)
-                .map(p -> new File(p.toFile().getName(), p.toFile().length(), directory))
-                .map(f -> fileRepo.save(f))
-                .collect(Collectors.toList());
+    public void createFile(String path, Directory directory){
+        List<File> filesInFolder = null;
+        try {
+            filesInFolder = Files.walk(Paths.get(path), 1)
+                    .filter(Files::isRegularFile)
+                    .map(p -> new File(p.toFile().getName(), p.toFile().length(), directory))
+                    .map(f -> fileRepo.save(f))
+                    .collect(Collectors.toList());
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
         directory.setFiles(filesInFolder);
     }
 

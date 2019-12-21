@@ -1,5 +1,4 @@
 package com.study.directoryfiles.controller;
-/*
 
 import com.study.directoryfiles.model.Query;
 import com.study.directoryfiles.service.QueryService;
@@ -81,4 +80,3 @@ public class QueryControllerTest {
     }
 
 }
-*/

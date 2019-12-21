@@ -7,11 +7,9 @@ import com.study.directoryfiles.repository.DirectoryRepo;
 import com.study.directoryfiles.repository.FileRepo;
 import com.study.directoryfiles.repository.QueryRepo;
 import com.study.directoryfiles.repository.QueryRepoCustom;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 
-import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -31,15 +29,12 @@ public class QueryRepoImpl implements QueryRepoCustom {
     }
 
     @Override
-    public void addQuery(String path){
-        try {
-            Query queryDB = createQuery(path);
-            queryRepo.save(queryDB);
-        }catch (Exception e){}
-
+    public void addQueryToDB(String path){
+        Query queryDB = createQuery(path);
+        queryRepo.save(queryDB);
     }
 
-    private Query createQuery(String path) throws IOException {
+    private Query createQuery(String path){
         query = new Query();
         addTime();
         addBaseDirectory(path);

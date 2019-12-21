@@ -1,6 +1,6 @@
 package com.study.directoryfiles.controller;
-/*
 import com.study.directoryfiles.model.Directory;
+import com.study.directoryfiles.model.File;
 import com.study.directoryfiles.model.Query;
 import com.study.directoryfiles.service.DirectoryService;
 import com.study.directoryfiles.service.FileService;
@@ -123,8 +123,4 @@ public class FileControllerTest {
         verify(directoryService, times(1)).getDirectoriesByParentSorted(directory);
         verify(queryService, times(1)).getQueryById(id);
     }
-
-
-
-
-}*/
+}

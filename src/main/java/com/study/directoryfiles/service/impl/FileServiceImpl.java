@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -19,11 +18,9 @@ public class FileServiceImpl implements FileService {
     private FileRepo fileRepo;
 
     public List<File> getFilesByDirectorySorted(Directory directory){
-        List<File> unsortedList = fileRepo.getByDirectory(directory);
-        List<File> sortedList = unsortedList.stream()
-                        .sorted(((f1, f2)-> customSortByName(f1.getName(), f2.getName())))
-                        .collect(Collectors.toList());
-        return sortedList;
+        List<File> listFile = fileRepo.getByDirectory(directory);
+        listFile.sort((f1, f2) -> customSortByName(f1.getName(), f2.getName()));
+        return listFile;
     }
 
     public int customSortByName(String name1, String name2){

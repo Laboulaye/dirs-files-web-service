@@ -9,7 +9,7 @@ public interface QueryService {
 
     void addQuery(String path);
 
-    Query getQueryById(long id) throws Exception;
+    Query getQueryById(long id);
 
     List<Query> getQueryList();
 }

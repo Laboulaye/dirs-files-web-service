@@ -4,7 +4,6 @@ import com.study.directoryfiles.model.Directory;
 import com.study.directoryfiles.repository.DirectoryRepo;
 import com.study.directoryfiles.repository.DirectoryRepoCustom;
 import com.study.directoryfiles.repository.FileRepo;
-import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 
@@ -28,31 +27,38 @@ public class DirectoryRepoImpl implements DirectoryRepoCustom {
     }
 
     @Override
-    public Directory createDirectory(String path) throws IOException {
-        Path testDirectoryPath = Paths.get(path);
-        if(Files.isDirectory(testDirectoryPath)){
+    public Directory createDirectory(String inputPath) {
+        Path directoryPath = Paths.get(inputPath);
+        if(Files.isDirectory(directoryPath)){
             directory = new Directory();
-            addNameDirectory(path);
-            addListSubDirectories(path);
+            addName(inputPath);
+            addListSubDirectories(inputPath);
             directoryRepo.save(directory);
-            fileRepo.createFile(path, directory);
+            fileRepo.createFile(inputPath, directory);
             saveSubDirsToDB(directory.getDirectories());
+        }
+        else {
+            return null;
         }
         return directory;
     }
 
-    private void addNameDirectory(String path){
+    private void addName(String path){
         directory.setName(path);
     }
 
-    private void addListSubDirectories(String path)throws IOException{
-        List<Directory> dirsInFolder = Files.walk(Paths.get(path), 1)
-                .filter(Files::isDirectory)
-                //.map(Path::toFile)
-                .map( p -> new Directory(p.toFile().getName(), directory))
-                .collect(Collectors.toList());
-        dirsInFolder.remove(0);
-
+    private void addListSubDirectories(String path){
+        List<Directory> dirsInFolder = null;
+        try {
+            dirsInFolder = Files.walk(Paths.get(path), 1)
+                    .filter(Files::isDirectory)
+                    .map( p -> new Directory(p.toFile().getName(), directory))
+                    .collect(Collectors.toList());
+            // удаляем 0-й элемент, т.к. эта директория является родительской, а не поддиректорией
+            dirsInFolder.remove(0);
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
         directory.setDirectories(dirsInFolder);
     }
 

@@ -14,12 +14,13 @@ public class QueryServiceImpl implements QueryService {
 
     private QueryRepo queryRepo;
 
+
     public void addQuery(String path){
-        queryRepo.addQuery(path);
+        queryRepo.addQueryToDB(path);
     }
 
-    public Query getQueryById(long id) throws Exception{
-        return queryRepo.findById(id).orElseThrow(Exception::new);
+    public Query getQueryById(long id) throws IllegalArgumentException {
+        return queryRepo.findById(id).orElseThrow(IllegalArgumentException::new);
     }
 
     public List<Query> getQueryList(){
