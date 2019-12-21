@@ -10,5 +10,6 @@ import java.util.List;
 public interface QueryRepo extends JpaRepository<Query, Long>, QueryRepoCustom{
 
     List<Query> findByOrderByIdDesc();
+
 }
 

@@ -12,7 +12,7 @@ public class File {
 
     private String name;
 
-    private String size;
+    private long size;
 
     @ManyToOne
     @JoinColumn(name="directory_id", nullable=false)
@@ -21,9 +21,15 @@ public class File {
     public File() {
     }
 
-    public File(String name, String size) {
+    public File(String name, long size) {
         this.name = name;
         this.size = size;
+    }
+
+    public File(String name, long size, Directory directory) {
+        this.name = name;
+        this.size = size;
+        this.directory = directory;
     }
 
     public String getName() {
@@ -34,11 +40,11 @@ public class File {
         this.name = name;
     }
 
-    public String getSize() {
+    public long getSize() {
         return size;
     }
 
-    public void setSize(String size) {
+    public void setSize(long size) {
         this.size = size;
     }
 

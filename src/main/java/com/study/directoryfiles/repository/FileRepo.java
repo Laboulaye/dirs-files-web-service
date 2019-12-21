@@ -9,8 +9,9 @@ import java.util.List;
 
 
 @Repository
-public interface FileRepo extends JpaRepository<File, Long> {
+public interface FileRepo extends JpaRepository<File, Long>, FileRepoCustom {
 
     List<File> getByDirectory(Directory directory);
+
 }
 

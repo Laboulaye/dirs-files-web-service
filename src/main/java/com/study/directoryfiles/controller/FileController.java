@@ -26,23 +26,37 @@ public class FileController{
 
     @GetMapping("/files/{queryId}")
     public String getContent(@PathVariable("queryId") String queryId, Model model){
-        Query query;
-        try{
-            long longQueryId = Long.parseLong(queryId);
-            query = queryService.getQueryById(longQueryId);
-        }catch (Exception e){
-            model.addAttribute("message", "Такого запроса не существует");
-            return "error";
-        }
-        Directory directory = query.getDirectory();
-        if(directory != null) {
-            model.addAttribute("query", query);
-            model.addAttribute("directories", directoryService.getDirectoriesByParentSorted(directory));
-            model.addAttribute("files", fileService.getFilesByDirectorySorted(directory));
-            return "files";
+        Query query = getQuery(queryId);
+//        try{
+//            long longQueryId = Long.parseLong(queryId);
+//            query = queryService.getQueryById(longQueryId);
+//        }catch (Exception e){
+//            model.addAttribute("message", "Такого запроса не существует");
+//            return "error";
+//        }
+        if(query != null) {
+            Directory directory = query.getDirectory();
+
+            if (directory != null) {
+                model.addAttribute("query", query);
+                model.addAttribute("directories", directoryService.getDirectoriesByParentSorted(directory));
+                model.addAttribute("files", fileService.getFilesByDirectorySorted(directory));
+                return "files";
+            }
         }
         model.addAttribute("message", "Неправильно указана базовая директория");
         return "error";
+    }
+
+    private Query getQuery(String queryId){
+        Query query;
+        try {
+            long longQueryId = Long.parseLong(queryId);
+            query = queryService.getQueryById(longQueryId);
+        }catch(Exception e){
+            return null;
+        }
+        return query;
     }
 
 }

@@ -17,7 +17,7 @@
 <div class="card mx-auto" style="width: 70%">
     <div class="card-header">
         <span th:text="${query.getBaseDirectory()}          ">Путь</span>
-        <span th:text="${query.getDateTime()}">Дата</span>
+        <span th:text="${#temporals.format(query.getDateTime(), 'dd-MM-yyyy HH:mm')}"> Дата </span>
     </div>
     <div class="card-body">
         <h5 class="card-title">Содержимое директории</h5>
@@ -38,7 +38,7 @@
             </tr>
             <tr th:each="file : ${files}" >
                 <td><span th:text="${file.name}"> Name </span></td>
-                <td><span th:text="${file.size}"> Size </span></td>
+                <td><span th:text="${@fileRepo.transformLongToString(file.size)}"> Size </span></td>
             </tr>
 
 

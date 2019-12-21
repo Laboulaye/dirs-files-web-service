@@ -4,15 +4,17 @@ import com.study.directoryfiles.model.Directory;
 import com.study.directoryfiles.model.File;
 import com.study.directoryfiles.model.Query;
 import com.study.directoryfiles.repository.DirectoryRepo;
+import com.study.directoryfiles.repository.FileRepo;
 import com.study.directoryfiles.repository.QueryRepo;
 import com.study.directoryfiles.repository.QueryRepoCustom;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.io.IOException;
 import java.text.DecimalFormat;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public class QueryRepoImpl  implements QueryRepoCustom {
+public class QueryRepoImpl implements QueryRepoCustom {
 
     @Autowired
     private QueryRepo queryRepo;
@@ -20,21 +22,26 @@ public class QueryRepoImpl  implements QueryRepoCustom {
     @Autowired
     private DirectoryRepo directoryRepo;
 
+    @Autowired
+    private FileRepo fileRepo;
+
     private Query query;
 
-
+    @Override
     public void addQuery(String path){
-        Query queryDB = createQuery(path);
-        queryRepo.save(queryDB);
+        try {
+            Query queryDB = createQuery(path);
+            queryRepo.save(queryDB);
+        }catch (Exception e){}
+
     }
 
-    private Query createQuery(String path){
+    private Query createQuery(String path) throws IOException {
         query = new Query();
         addTime();
         addBaseDirectory(path);
-
-        Directory directory = findDirectoryByPath(path);
-        if(directory != null){
+        Directory directory = directoryRepo.createDirectory(path);
+        if (directory != null) {
             addCountDirs(directory);
             addCountFiles(directory);
             addSizeSum(directory);
@@ -43,83 +50,37 @@ public class QueryRepoImpl  implements QueryRepoCustom {
         return query;
     }
 
-    private void addTime(){
+    private void addTime() {
         query.setDateTime(LocalDateTime.now());
     }
 
-    private void addBaseDirectory(String path){
+    private void addBaseDirectory(String path) {
         query.setBaseDirectory(path);
     }
 
-    private Directory findDirectoryByPath(String path){
-        List<Directory> directories = directoryRepo.findAll();
-        for(Directory directory : directories){
-            if(path.equals(getFullPathDirectory(directory))){
-                return directory;
-            }
-        }
-        return null;
-    }
-
-    private String getFullPathDirectory(Directory directory){
-        StringBuilder path = new StringBuilder();
-        path.append(directory.getName());
-        while(directory.getParent() != null){
-            directory = directory.getParent();
-            path.insert(0, "/").insert(0, directory.getName());
-        }
-        return path.toString();
-    }
-
     private void addCountDirs(Directory directory){
-        List<Directory> directories = directoryRepo.getByParent(directory);
-        query.setCountSubDirectories(String.valueOf(directories.size()));
+        List<Directory> listDirs = directory.getDirectories();
+        query.setCountSubDirectories(String.valueOf(listDirs.size()));
     }
 
     private void addCountFiles(Directory directory){
-        query.setCountFilesInDirectory(String.valueOf(directory.getFiles().size()));
+        List<File> listFile = directory.getFiles();
+        query.setCountFilesInDirectory(String.valueOf(listFile.size()));
     }
 
     private void addSizeSum(Directory directory){
         long sizeSum = calculateSize(directory.getFiles());
-        String stringSize = transformLongToString(sizeSum);
+        String stringSize = fileRepo.transformLongToString(sizeSum);
         query.setSize(stringSize);
     }
 
-    private long calculateSize(List<File> files) {
-        long sizeSum = 0;
-        for(File f : files){
-            String[] arr = f.getSize().split(" ");
-            if(arr[1].trim().equalsIgnoreCase("Gb")){
-                sizeSum+= 1e+9 * Double.parseDouble(arr[0].trim());
-            }
-            else if(arr[1].trim().equalsIgnoreCase("Mb")){
-                sizeSum+= 1e+6 * Double.parseDouble(arr[0].trim());
-            }
-            else if(arr[1].trim().equalsIgnoreCase("Kb")){
-                sizeSum+= 1024 * Double.parseDouble(arr[0].trim());
-            }
-            else sizeSum+= Double.parseDouble(arr[0].trim());
+    private long calculateSize(List<File> listFile){
+        long size = 0;
+        for(File f: listFile){
+            size += f.getSize();
         }
-        return sizeSum;
+        return size;
     }
-
-    private String transformLongToString(long sizeSum) {
-        String formattedString;
-        if(sizeSum > 1e+9){
-            formattedString = new DecimalFormat("#0.00").format(sizeSum/1e+9).concat(" Gb");
-        }
-        else if(sizeSum > 1e+6){
-            formattedString = Math.round(sizeSum/1e+6) + " Mb";
-        }
-        else if(sizeSum > 1024){
-            formattedString = Math.round(sizeSum/1024) + " Kb";
-        }
-        else formattedString = sizeSum + " b";
-
-        return formattedString;
-    }
-
 
     private void addDirectory(Directory directory){
         query.setDirectory(directory);

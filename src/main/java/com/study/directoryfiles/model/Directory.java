@@ -16,7 +16,7 @@ public class Directory {
     @ManyToOne
     private Directory parent;
 
-    @OneToMany(mappedBy="directory")
+    @OneToMany(mappedBy = "directory")
     private List<File> files;
 
     @OneToMany(mappedBy = "parent")
@@ -24,6 +24,11 @@ public class Directory {
 
 
     public Directory() {
+    }
+
+    public Directory(String name, Directory parent) {
+        this.name = name;
+        this.parent = parent;
     }
 
     public long getId() {
@@ -41,7 +46,6 @@ public class Directory {
     public void setName(String name) {
         this.name = name;
     }
-
     public Directory getParent() {
         return parent;
     }

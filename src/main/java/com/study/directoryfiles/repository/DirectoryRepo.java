@@ -8,7 +8,7 @@ import java.util.List;
 
 
 @Repository
-public interface DirectoryRepo extends JpaRepository<Directory, Long> {
+public interface DirectoryRepo extends JpaRepository<Directory, Long>, DirectoryRepoCustom{
 
     List<Directory> getByParent(Directory parent);
 }
