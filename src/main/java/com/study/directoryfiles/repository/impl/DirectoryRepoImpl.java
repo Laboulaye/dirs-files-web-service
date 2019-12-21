@@ -4,7 +4,9 @@ import com.study.directoryfiles.model.Directory;
 import com.study.directoryfiles.repository.DirectoryRepo;
 import com.study.directoryfiles.repository.DirectoryRepoCustom;
 import com.study.directoryfiles.repository.FileRepo;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -15,13 +17,15 @@ import java.util.stream.Collectors;
 
 public class DirectoryRepoImpl implements DirectoryRepoCustom {
 
-    @Autowired
-    DirectoryRepo directoryRepo;
-
-    @Autowired
-    FileRepo fileRepo;
-
+    private DirectoryRepo directoryRepo;
+    private FileRepo fileRepo;
     private Directory directory;
+
+    @Autowired
+    public DirectoryRepoImpl(@Lazy DirectoryRepo directoryRepo, FileRepo fileRepo) {
+        this.directoryRepo = directoryRepo;
+        this.fileRepo = fileRepo;
+    }
 
     @Override
     public Directory createDirectory(String path) throws IOException {

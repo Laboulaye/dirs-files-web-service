@@ -5,6 +5,7 @@ import com.study.directoryfiles.model.Query;
 import com.study.directoryfiles.service.DirectoryService;
 import com.study.directoryfiles.service.FileService;
 import com.study.directoryfiles.service.QueryService;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,17 +13,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 @Controller
+@AllArgsConstructor
 public class FileController{
 
-    @Autowired
-    FileService fileService;
-
-    @Autowired
-    DirectoryService directoryService;
-
-    @Autowired
-    QueryService queryService;
-
+    private FileService fileService;
+    private DirectoryService directoryService;
+    private QueryService queryService;
 
     @GetMapping("/files/{queryId}")
     public String getContent(@PathVariable("queryId") String queryId, Model model){

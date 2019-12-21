@@ -7,25 +7,28 @@ import com.study.directoryfiles.repository.DirectoryRepo;
 import com.study.directoryfiles.repository.FileRepo;
 import com.study.directoryfiles.repository.QueryRepo;
 import com.study.directoryfiles.repository.QueryRepoCustom;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 
 import java.io.IOException;
-import java.text.DecimalFormat;
 import java.time.LocalDateTime;
 import java.util.List;
 
+
 public class QueryRepoImpl implements QueryRepoCustom {
 
-    @Autowired
     private QueryRepo queryRepo;
-
-    @Autowired
     private DirectoryRepo directoryRepo;
+    private FileRepo fileRepo;
+    private Query query;
 
     @Autowired
-    private FileRepo fileRepo;
-
-    private Query query;
+    public QueryRepoImpl(@Lazy QueryRepo queryRepo, DirectoryRepo directoryRepo, FileRepo fileRepo) {
+        this.queryRepo = queryRepo;
+        this.directoryRepo = directoryRepo;
+        this.fileRepo = fileRepo;
+    }
 
     @Override
     public void addQuery(String path){

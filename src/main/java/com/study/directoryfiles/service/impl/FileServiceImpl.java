@@ -4,7 +4,7 @@ import com.study.directoryfiles.model.Directory;
 import com.study.directoryfiles.model.File;
 import com.study.directoryfiles.repository.FileRepo;
 import com.study.directoryfiles.service.FileService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,11 +13,10 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 @Service
+@AllArgsConstructor
 public class FileServiceImpl implements FileService {
 
-    @Autowired
-    FileRepo fileRepo;
-
+    private FileRepo fileRepo;
 
     public List<File> getFilesByDirectorySorted(Directory directory){
         List<File> unsortedList = fileRepo.getByDirectory(directory);

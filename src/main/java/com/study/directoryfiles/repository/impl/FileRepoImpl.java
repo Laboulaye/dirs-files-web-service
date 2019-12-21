@@ -4,7 +4,9 @@ import com.study.directoryfiles.model.Directory;
 import com.study.directoryfiles.model.File;
 import com.study.directoryfiles.repository.FileRepo;
 import com.study.directoryfiles.repository.FileRepoCustom;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -13,11 +15,15 @@ import java.text.DecimalFormat;
 import java.util.List;
 import java.util.stream.Collectors;
 
+
 public class FileRepoImpl implements FileRepoCustom {
 
-    @Autowired
     private FileRepo fileRepo;
 
+    @Autowired
+    public FileRepoImpl(@Lazy FileRepo fileRepo) {
+        this.fileRepo = fileRepo;
+    }
 
     @Override
     public void createFile(String path, Directory directory) throws IOException{
