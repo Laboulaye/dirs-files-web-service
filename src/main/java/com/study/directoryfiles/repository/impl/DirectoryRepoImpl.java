@@ -48,19 +48,18 @@ public class DirectoryRepoImpl implements DirectoryRepoCustom {
     }
 
     private void addListSubDirectories(String path){
-        List<Directory> dirsInFolder = null;
         try {
-            dirsInFolder = Files.walk(Paths.get(path), 1)
+            List<Directory>  dirsInFolder = Files.walk(Paths.get(path), 1)
                     .filter(Files::isDirectory)
                     .map( p -> new Directory(p.toFile().getName(), directory))
                     .collect(Collectors.toList());
             // удаляем 0-й элемент, т.к. при обходе внутренних дирректорий с помощью Files.walk() первой
             // записывается родительская директория. Ее из списка и удаляем
             dirsInFolder.remove(0);
+            directory.setDirectories(dirsInFolder);
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
-        directory.setDirectories(dirsInFolder);
     }
 
     private void saveSubDirsToDB(List<Directory> listDirs){

@@ -26,17 +26,17 @@ public class FileRepoImpl implements FileRepoCustom {
 
     @Override
     public void createFile(String path, Directory directory){
-        List<File> filesInFolder = null;
         try {
-            filesInFolder = Files.walk(Paths.get(path), 1)
+            List<File> filesInFolder = Files.walk(Paths.get(path), 1)
                     .filter(Files::isRegularFile)
                     .map(p -> new File(p.toFile().getName(), p.toFile().length(), directory))
                     .map(f -> fileRepo.save(f))
                     .collect(Collectors.toList());
+
+            directory.setFiles(filesInFolder);
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
-        directory.setFiles(filesInFolder);
     }
 
     @Override
