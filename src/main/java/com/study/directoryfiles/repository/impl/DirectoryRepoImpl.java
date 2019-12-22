@@ -54,7 +54,8 @@ public class DirectoryRepoImpl implements DirectoryRepoCustom {
                     .filter(Files::isDirectory)
                     .map( p -> new Directory(p.toFile().getName(), directory))
                     .collect(Collectors.toList());
-            // удаляем 0-й элемент, т.к. эта директория является родительской, а не поддиректорией
+            // удаляем 0-й элемент, т.к. при обходе внутренних дирректорий с помощью Files.walk() первой
+            // записывается родительская директория. Ее из списка и удаляем
             dirsInFolder.remove(0);
         } catch (IOException e) {
             System.out.println(e.getMessage());
